@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>OIDEA</title>
+
+    <environment names="Development">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css">
+         
+        <!-- Bootstrap core CSS  -->
+        <link href="~/lib/basic-landing-page/css/bootstrap.min.css" rel="stylesheet"> 
+
+        <!-- Material Design Bootstrap -->
+        <link href="~/lib/basic-landing-page/css/mdb.min.css" rel="stylesheet">
+
+        <!-- Your custom styles (optional) -->
+        <link href="~/lib/basic-landing-page/css/style.css" rel="stylesheet">
+
+        <link href="~/css/site.min.css" rel="stylesheet" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+
+        <!-- cache busting : asp-append-version -->
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/form.min.css" asp-append-version="true" />
+      
+    </environment>
+
+    <link rel="stylesheet" href="~/css/site.css" />
+
+
+</head>
+
+<body>
+    <!--Navbar-->
+    <nav class="navbar navbar-dark color navbar-fixed-top scrolling-navbar">
+
+        <!-- Collapse button-->
+        <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#collapseEx2">
+            <i class="fa fa-bars"></i>
+        </button>
+
+        <div class="container-fluid">
+
+            <!--Collapse content-->
+            <div class="navbar-collapse collapse navbar-toggleable-xs">
+                <!--Navbar Brand-->
+                <a asp-area="" asp-controller="Home" asp-action="Home" class="navbar-brand"><i class="fa fa-archive" aria-hidden="true"></i> Online IDE Application</a>
+                <!--Links-->
+                <ul class="nav navbar-nav">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="Projects"><i class="fa fa-navicon" aria-hidden="true"></i> Projects</a></li>
+                        <li class="nav-item"><a class="nav-link" asp-controller="Compiler" asp-action="Compile"><i class="fa fa-gears" aria-hidden="true"></i> Compiler</a></li>
+                    }
+                </ul>
+                @await Html.PartialAsync("_LoginPartial")
+            </div>   
+        </div>     
+    </nav>
+
+    <div class="body-content fadeIn">
+        @RenderBody()
+    </div>
+
+    <environment names="Development">
+        <!-- SCRIPTS -->
+        <!-- JQuery -->
+        <script type="text/javascript" src="~/lib/basic-landing-page/js/jquery-2.2.3.min.js"></script>
+
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="~/lib/basic-landing-page/js/tether.min.js"></script>
+
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="~/lib/basic-landing-page/js/bootstrap.min.js"></script>
+
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="~/lib/basic-landing-page/js/mdb.min.js"></script>
+
+        <!-- Animations init-->
+        <script>
+            new WOW().init();
+        </script>
+
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="~/lib/basic-landing-page/js/mdb.min.js"></script>
+
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment names="Staging,Production">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,8 @@
+﻿.padded-row-form {
+  padding: 3px 1px;
+}
+.padded-row-form .login-checkbox {
+  vertical-align: middle;
+  position: relative;
+  bottom: 3px;
+}

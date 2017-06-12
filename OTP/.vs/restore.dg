@@ -1,0 +1,10 @@
+#:E:\LICENTA 2017\OTP\src\4.OTP\4.OTP.xproj
+E:\LICENTA 2017\OTP\src\4.OTP\4.OTP.xproj|E:\LICENTA 2017\OTP\src\1.Domain\1.Domain.xproj
+E:\LICENTA 2017\OTP\src\4.OTP\4.OTP.xproj|E:\LICENTA 2017\OTP\Bussines\Bussines.xproj
+E:\LICENTA 2017\OTP\src\4.OTP\4.OTP.xproj|E:\LICENTA 2017\OTP\Repository\Repository.xproj
+E:\LICENTA 2017\OTP\Bussines\Bussines.xproj|E:\LICENTA 2017\OTP\src\3.BussinesInterfaces\3.BussinesInterfaces.xproj
+E:\LICENTA 2017\OTP\src\3.BussinesInterfaces\3.BussinesInterfaces.xproj|E:\LICENTA 2017\OTP\src\1.Domain\1.Domain.xproj
+E:\LICENTA 2017\OTP\src\3.BussinesInterfaces\3.BussinesInterfaces.xproj|E:\LICENTA 2017\OTP\src\2.RepositoryInterfaces\2.RepositoryInterfaces.xproj
+E:\LICENTA 2017\OTP\src\2.RepositoryInterfaces\2.RepositoryInterfaces.xproj|E:\LICENTA 2017\OTP\src\1.Domain\1.Domain.xproj
+E:\LICENTA 2017\OTP\Repository\Repository.xproj|E:\LICENTA 2017\OTP\src\1.Domain\1.Domain.xproj
+E:\LICENTA 2017\OTP\Repository\Repository.xproj|E:\LICENTA 2017\OTP\src\2.RepositoryInterfaces\2.RepositoryInterfaces.xproj

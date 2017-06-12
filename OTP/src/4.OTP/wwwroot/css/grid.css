@@ -1,0 +1,25 @@
+﻿.header-grid {
+  background-color: beige;
+}
+.grid {
+  padding: 20px;
+}
+.grid div {
+  border: 1px solid white;
+  font-size: medium;
+  overflow: hidden;
+  max-height: 26px;
+}
+.grid .grid-row {
+  background-color: aqua;
+}
+.grid .grid-row:nth-child(odd) {
+  background-color: #99ffff;
+}
+.grid .grid-row:hover {
+  background-color: #006666;
+}
+.grid .grid-row button {
+  padding: 3px;
+  margin: 1px;
+}

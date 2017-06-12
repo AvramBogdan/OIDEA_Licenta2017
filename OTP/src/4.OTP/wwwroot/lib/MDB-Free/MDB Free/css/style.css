@@ -1,0 +1,330 @@
+.body{ 
+
+    background-color: whitesmoke;
+}
+
+.buttons{ 
+
+    position : absolute;
+    z-index : 1;
+}
+
+.new_button{
+
+    margin-top: 5px;
+    margin-left: 400px;
+    width: 250px;
+    height: 200px;
+ 
+}
+
+.open_button{
+
+    margin-top: 5px;
+    margin-left: 10px;
+    width: 250px;
+    height: 200px;
+ 
+}
+
+.list_button{ 
+
+    margin-top: 5px;
+    margin-left: 400px;
+    width: 250px;
+    height: 200px;
+ 
+}
+
+.delete_button{ 
+
+    margin-top: 5px;
+    margin-left: 10px;
+    width: 250px;
+    height: 200px;
+    position: center;
+
+}
+
+.x_button{ 
+
+    background-color: whitesmoke;
+    color: black;
+    border:none;
+    margin-left: 95%;
+    margin-top: 0.1%;
+}
+
+.new_project{ 
+
+    margin-left: 25%;
+    margin-top: 0.3%;
+    width: 650px;
+    height: 450px;
+    display:none;  
+    background-color: whitesmoke;
+    border-width: 2px;
+    border-style: solid;
+    box-shadow: 10px 10px 5px #888888;
+    position:absolute;
+    z-index: 2;
+
+}
+
+.open_project{
+
+    margin-left: 25%;
+    margin-top: 0.3%;
+    width: 650px;
+    height: 450px;
+    display:none;  
+    background-color: whitesmoke;
+    border-width: 2px;
+    border-style: solid;
+    box-shadow: 10px 10px 5px #888888;
+    position:absolute;
+    z-index: 2;
+
+}
+
+.list_projects{ 
+
+    margin-left: 25%;
+    margin-top: 0.3%;
+    width: 650px;
+    height: 450px;
+    display:none;  
+    background-color: whitesmoke;
+    border-width: 2px;
+    border-style: solid;
+    box-shadow: 10px 10px 5px #888888;
+    position:absolute;
+    z-index: 2;
+}
+
+.delete_project{ 
+
+    margin-left: 25%;
+    margin-top: 0.3%;
+    width: 650px;
+    height: 450px;
+    display:none;  
+    background-color: whitesmoke;
+    border-width: 2px;
+    border-style: solid;
+    box-shadow: 10px 10px 5px #888888;
+    position:absolute;
+    z-index: 2;
+}
+
+.first_button{ 
+
+    position: center;
+    height: 150px;
+    width : 150px;
+
+}
+
+.second_button{ 
+
+   position: center;
+    height: 150px;
+    width : 150px;
+
+}
+
+
+.form-style-6{
+    font: 95% Arial, Helvetica, sans-serif;
+    max-width: 400px;
+    margin: 10px auto;
+    padding: 16px;
+    background: #F7F7F7;
+}
+.form-style-6 h1{
+    background-color: darkslategray;
+    padding: 20px 0;
+    font-size: 140%;
+    font-weight: 300;
+    text-align: center;
+    color: #fff;
+    margin: -16px -16px 16px -16px;
+}
+.form-style-6 input[type="text"],
+.form-style-6 select 
+{
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+    background: #fff;
+    margin-bottom: 4%;
+    border: 1px solid #ccc;
+    padding: 3%;
+    color: #555;
+    font: 95% Arial, Helvetica, sans-serif;
+}
+
+.headers {
+    display: inline;
+}
+
+.separating_line_header{ 
+
+    height: 10px;
+	border: 0;
+	box-shadow: 0 10px 10px -10px #8c8b8b inset;
+}
+
+.items{ 
+        
+        position: relative;
+        overflow: scroll;
+        margin-top: -20px;
+        height: 260px;
+
+}
+
+.item:hover{ 
+
+     background-color:red;
+     transition : ease;
+    
+}
+
+.item{ 
+
+    margin-left: 15px;
+  
+}
+
+.item:hover{ 
+
+     background-color: lightgray;
+     transition : ease;
+    
+}
+
+input[type=checkbox] {
+  transform: scale(2);
+  margin-top: 10px;
+}
+
+.lb1 { 
+
+    margin-left: 50px; 
+    font-size: 20px;
+    text-align: left;
+}
+
+.lb2 { 
+
+    display: block;
+    margin-right: 50px;
+    text-align: right;
+    font-size: 15px;
+    margin-top : -35px;
+    
+}
+
+
+.open_one_project{
+
+    margin-left: 250px;
+    margin-bottom: 50px;
+
+}
+
+.upload_one_project{
+        
+    margin-left: 100px;
+    margin-top: -10px;
+}
+
+.upload_project_text{ 
+
+    font-size: 20px;
+    margin-top: 0px;
+
+}
+
+.include_in_project{ 
+
+    margin-top:10px;
+}
+
+.text { 
+
+    font-size: 20px;
+
+}
+
+.error-message{ 
+    
+    color: black;
+    text-align:center;
+    margin-top: -450px;
+
+}
+
+
+
+.warning-delete{ 
+
+
+    margin-left: 150px;
+    margin-top: 5px;
+    width: 300px;
+    height: 200px;
+    visibility: hidden;
+    background-color: whitesmoke;
+    border-style : ridge;
+    border-width : 10px;
+    border-color : darkslategray;
+    position:absolute;
+    z-index: 3;
+
+}
+
+.warning-position{ 
+
+    margin-top: 15%;
+ 
+}
+
+.select-project{ 
+
+    margin-top : -10px;
+    font-size : 20px;
+}
+
+/* user add css */
+.new-user{ 
+
+    width : 20px;
+
+}
+
+.add-user-button{ 
+    
+    margin-top: -75px;
+    margin-left: 370px;
+    width: 110px;
+    height: 45px;
+
+}
+
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+
+

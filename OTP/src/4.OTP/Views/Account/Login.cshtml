@@ -1,0 +1,62 @@
+﻿@model  OTP.ViewModels.User.UserLogin
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<link rel="stylesheet" href="~/lib/MDB-Free/MDB Free/css/bootstrap.css" />
+<link rel="stylesheet" href="~/lib/MDB-Free/MDB Free/css/mdb.css" />
+<link rel="stylesheet" href="~/lib/MDB-Free/MDB Free/css/style.css" />
+
+
+
+<br />
+<br />
+
+<div class="row">
+    <div class="col-md-4 mx-auto float-xs-none">
+        <div class="card center-block">
+            <div class="card-block">
+                <!--Header-->
+                <div class="col-md-5 mx-auto float-xs-none">
+                    <h3><i class="fa fa-lock"></i> Login:</h3>
+                </div>
+
+
+                @using (Html.BeginForm())
+                {
+
+                    @Html.AntiForgeryToken()
+
+                    <div class="md-form">
+                        <i class="fa fa-user prefix"></i>
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control validate" })
+                        @Html.LabelFor(m => m.UserName)
+                        @Html.ValidationMessageFor(m => m.UserName, null, new { @class = "text-danger" })
+                    </div>
+
+                    <br />
+
+                    <div class="md-form">
+                        <i class="fa fa-lock prefix"></i>
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control validate" })
+                        @Html.LabelFor(m => m.Password)
+                        @Html.ValidationMessageFor(m => m.Password, null, new { @class = "text-danger" })
+                    </div>
+
+                    <br />
+
+                    <div class="text-xs-center">
+                        <button type="submit" id="alert-target" class="btn btn-default btn-color">Log in</button><br />
+                    </div>
+
+                    @Html.ValidationMessage("LoginFail", null, new { @class = "text-danger" })
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

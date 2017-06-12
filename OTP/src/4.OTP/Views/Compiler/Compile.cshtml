@@ -1,0 +1,616 @@
+﻿@model  OTP.ViewModels.CompilerData 
+
+@{ }
+
+<!-- Encoding -->
+<meta charset="utf-8" />
+
+<head>
+    <!-- include css for stylish compiler page -->
+    <link rel="stylesheet" href="~/css/compilerStyleSheet.css"/> 
+    <link rel="stylesheet" href="~/lib/codemirror/doc/docs.css" />
+    <link rel="stylesheet" href="~/lib/codemirror/lib/codemirror.css" />
+    <link rel="stylesheet" href="~/lib/codemirror/theme/eclipse.css" />
+    <link rel="stylesheet" href="~/lib/codemirror/addon/dialog/dialog.css" />
+    <link rel="stylesheet" href="~/lib/codemirror/addon/search/matchesonscrollbar.css" />
+    <link rel="stylesheet" href="~/lib/codemirror/addon/hint/show-hint.css" />
+    <link rel="stylesheet" href="~/lib/jqueryTree/dist/themes/default/style.min.css" />
+    <link rel="stylesheet" href="~/lib/MDB-Free/MDB Free/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/MDB-Free/MDB Free/css/mdb.css" />
+    <link rel="stylesheet" href="~/lib/MDB-Free/MDB Free/css/style.css" />
+
+    <!-- include js for stylish compiler page // text editor-->
+    <script src="~/lib/codemirror/lib/codemirror.js"></script>
+    <script src="~/lib/codemirror/addon/edit/matchbrackets.js"></script>
+    <script src="~/lib/codemirror/addon/hint/show-hint.js"></script>
+    <script src="~/lib/codemirror/mode/clike/clike.js"></script>
+    <script src="~/lib/codemirror/addon/dialog/dialog.js"></script>
+    <script src="~/lib/codemirror/addon/search/search.js"></script>
+    <script src="~/lib/codemirror/addon/search/searchcursor.js"></script>
+    <script src="~/lib/codemirror/addon/search/matchesonscrollbar.js"></script>
+    <script src="~/lib/codemirror/addon/search/jump-to-line.js"></script>
+    <script src="~/lib/codemirror/addon/scroll/annotatescrollbar.js"></script>
+    <script src="~/lib/ProgressBar/progressbar.js"></script>
+
+    <!-- include js for stylish compiler page // tree file ierarchy -->
+    <script src="~/js/Compiler.js"></script>
+    <script src="~/js/jquery/jquery.min.js"></script>
+    <script src="~/lib/jqueryTree/dist/jstree.min.js"></script>    
+</head>
+
+<body>
+
+    <div class="loading" id="loading" style="display:none;">
+        <img src="~/images/loading.svg" />
+    </div>
+
+    <!-- SUCCESS / WARNING -->
+    <div class="modal fade" id="succes_warning" tabindex="-1" role="textbox" aria-labelledby="myModalLabel2" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content warning">
+                <div class="modal-header cmd-header-size">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h6 class="modal-title " id="myModalLabel2"><i class="fa fa-info-circle" aria-hidden="true"></i>Info</h6>
+                </div>
+                <div class="modal-body body-warning" id="info">
+                    <textarea readonly class="textarea-output" id="textarea_info"></textarea>
+                    <button class="btn btn-default " id="ok_succes_warning" data-dismiss="modal" style="margin-top:-250px;margin-left:90px;">Ok</button>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    <!-- END SUCCESS / WARNING -->
+
+
+    <!-- COMMAND LINE -->
+    <div class="modal fade" id="cmd" tabindex="-1" role="textbox" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header cmd-header-size">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h6 class="modal-title " id="myModalLabel"><i class="fa fa-terminal" aria-hidden="true"></i>Command line</h6>
+                </div>
+                <div class="modal-body body-cmd" id="cmd">
+                    <textarea class="textarea-cmd" name="textarea_cmd" id="textarea_cmd" onkeypress="return writeOn_newline()">OIDEA command line. Type 'help' for listing the available commands.&#13;&#10;OIDEA$: </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END COMMAND LINE -->
+
+    <!-- OUTPUT -->
+        <div class="modal fade" id="output" tabindex="-1" role="textbox" aria-labelledby="myModalLabel2" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header cmd-header-size">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h6 class="modal-title " id="myModalLabel2"><i class="fa fa-eye" aria-hidden="true"></i>Output</h6>
+                    </div>
+                    <div class="modal-body body-output" id="textarea_output">
+                        <textarea readonly class="textarea-output" id="textarea_output"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- END OUTPUT -->
+
+
+    <!-- SAVE AS FILE -->
+    <div class="modal fade" id="savefile" tabindex="-1" role="textbox" aria-labelledby="myModalLabel3" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h6 class="modal-title " id="myModalLabel"><i class="fa fa-check" aria-hidden="true"></i>Save File As</h6>
+                </div>
+
+                <div class="modal-body body-output" id="save_file">
+
+                    <label for="old_file" style="color:black">Old Name: </label>
+                    <input id="old_file" style="margin-left:17px;"/> 
+                    <label for="old_file" style="color:red">No need to specify for NEW TABS!</label>
+                    <br/>
+
+                    <label for="new_file" style="color:black;">New Name: </label>
+                    <input id="new_file" style="margin-left:10px;" /> <br /><br />
+
+                    <button type="submit" class="btn btn-default" id="saveAs" data-dismiss="modal">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!-- END SAVE FILE -->
+
+    <!-- EXPORT GIT -->
+    <div class="modal fade" id="exportGit" tabindex="-1" role="textbox" aria-labelledby="myModalLabel3" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h6 class="modal-title " id="myModalLabel"><i class="fa fa-github" aria-hidden="true"></i></i>Export project to GitHub</h6>
+                </div>
+
+                <div class="modal-body body-output" id="export_Git">
+
+                    <label for="git_username" style="color:black"> Git UserName: </label>
+                    <input id="git_username" style="margin-left:20px; width: 180px;" type="text" />
+                    <br />
+
+                    <label for="git_password" style="color:black;">Git Password: </label>
+                    <input id="git_password" style="margin-left:25px; width: 180px;"  type="password"/> 
+                    <br /><br />
+
+                    <label for="git_url" style="color:black;">Repository URL: </label>
+                    <input id="git_url" style="margin-left:10px;" />
+                    <br />
+
+                    <button type="submit" class="btn btn-default" id="export_git" data-dismiss="modal">Export</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- END EXPORT GIT -->
+
+
+    <div  id="tree_directories" class="treeDirectories" >        
+        <!-- TOOLS -->
+        <div class="btn-group tools">
+
+            <button class="btn btn-default dropdown-toggle tools-size" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left:10px;"> <i class="fa fa-wrench" aria-hidden="true"></i> Tools   </button>
+
+            <div class="dropdown-menu dropdown-primary"> 
+
+                <button class="dropdown-item"  data-toggle="modal" id="compile_btn"> <i class="fa fa-code" aria-hidden="true"></i> Compile & Execute</button>
+                <div class="dropdown-divider"></div>
+
+                <button class="dropdown-item" data-toggle="modal" data-target="#cmd" id="cmdbutton"> <i class="fa fa-terminal" aria-hidden="true" ></i> Command line</button>
+                <div class="dropdown-divider"></div>
+
+                <button class="dropdown-item" data-toggle="modal" data-target="#savefile" id="add_newfile"> <i class="fa fa-check" aria-hidden="true"></i> Save File As </button>
+                <div class="dropdown-divider"></div>
+
+                <button class="dropdown-item" id="save"> <i class="fa fa-check" aria-hidden="true"></i> Save File</button>
+                <div class="dropdown-divider"></div>
+
+                <button class="dropdown-item" data-toggle="modal" data-target="#exportGit" id="exportGit"> <i class="fa fa-github" aria-hidden="true"></i> Export to Git</button>
+
+            </div>
+        </div>
+        <!-- END TOOLS -->
+
+
+        <div class="project_name"> Current project <br /><i class="fa fa-folder-open" aria-hidden="true"></i> @Model.currentProject </div>
+
+
+        <div class="memory-info"> <i class="fa fa-cubes" aria-hidden="true"></i> Used Space(%) : </div>
+        <div id="container"></div>
+
+
+    </div>
+
+    <!-- space used to delimit files and folders ierarchy from text editor and command console / output-->
+    <div class="splitBar"> </div>
+
+    <br /><br />
+      
+    <!-- TABS -->
+    <div class="tabs">
+        <ul class="tab-links">
+            <li class="active" id="s1"><a href="#tab1" style="color: white">@Model.FirstFile <span>x</span></a></li>
+            <li class="add-file"><a href="#" style="color: white">+Add newfile</a> </li>
+        </ul>
+    
+        <div class="tab-content">
+            <div id="tab1" class="tab active">
+                <!-- Text Editor -->
+                <div class="inputFrame" >
+                   <textarea id="code1" name="input"></textarea>
+                </div>
+           </div>          
+        </div>
+    </div>
+    <!-- END TABS -->
+       
+    <!-- LINKS -->
+    <div class="rightBar">
+        <a href="https://www.python.org/"> <img src="~/images/python.png"style="margin-top:70px;"> </a>
+
+        <a href="http://www.cprogramming.com/"> <img src="~/images/C.png" style="margin-top:70px;"> </a>
+
+        <a href="http://www.cplusplus.com/doc/tutorial/"> <img src="~/images/Cpp.png" style="margin-top:70px;"> </a>       
+    </div>
+    <!-- END LINKS -->
+     
+ 
+
+    <script>
+
+        var editor = {}
+
+        $(document).ready(function () {
+                    
+            /* Used for code editor customization for default tab */
+            var file = $('.tabs .tab-links .active').text();
+            file = file.substr(0, file.length - 2);
+
+            editor[file] = CodeMirror.fromTextArea(document.getElementById("code1"), {
+                lineNumbers: true,
+                extraKeys: { "Alt-F": "findPersistent" },
+                mode: "text/x-csrc",
+                matchBrackets: true
+                
+            });
+               
+            $.ajax({
+
+                type: "POST",
+                url: "/Compiler/get_dictValue",
+                data: { file: file },
+                success: function (data) {
+                        
+                    editor[file].setValue(data);
+                }
+
+            });
+
+            /* add tabs */
+            $('.add-file').click(function (e) {
+
+                e.preventDefault();
+                var id = $('.tab-links').children().length;
+                $(this).closest('li').before('<li id="s' + id + '"><a href="#tab' + id + '" style="color: white">New Tab <span>x</span> </a> </li>');
+                $('.tab-content').append('<div id="tab' + id + '" class="tab"><div class="inputFrame"> <textarea id="code' + id + '" placeholder="Code here.." name="input"></textarea> </div></div>');
+                var index = "code" + id;
+
+                editor[index] = CodeMirror.fromTextArea(document.getElementById("code" + id), {
+                    lineNumbers: true,
+                    extraKeys: { "Alt-F": "findPersistent" },
+                    mode: "text/x-csrc",
+                    matchBrackets: true
+
+                });
+            });
+            /* END add tabs */
+
+
+            $('.tabs .tab-links').on('click', 'a', function (e) {
+                var currentAttrValue = $(this).attr('href');
+             
+                // Show/Hide Tabs
+                $('.tabs ' + currentAttrValue).show().siblings().hide();
+
+                // Change/remove current tab to active
+                $(this).parent('li').addClass('active').siblings().removeClass('active');
+
+                    
+                var filename = $(this).text();
+                filename = filename.substr(0, filename.length - 2);
+
+                $.ajax({
+
+                    type: "POST",
+                    url: "/Compiler/get_dictValue",
+                    data: { file: filename },
+                    success: function (data) {
+
+                        editor[filename].setValue(data);
+                    }
+
+                });
+
+                                       
+            });
+
+            /* remove tabs */
+            $('.tabs .tab-links').on('click', 'span', function () {
+
+                var anchor = $(this).siblings('a');
+                $((anchor).attr('href')).remove();
+                $(this).parent().remove();
+                $('.tab-links li').children('a').first().click();
+
+            });
+            /* END remove tabs */
+
+
+            var bar = new ProgressBar.Circle(container, {
+                color: '#2F4F4F',
+                // This has to be the same size as the maximum width to
+                // prevent clipping
+                strokeWidth: 4,
+                trailWidth: 1,
+                easing: 'easeInOut',
+                duration: 1400,
+                text: {
+                    autoStyleContainer: false
+                },
+                from: { color: '#2F4F4F', width: 1 },
+                to: { color: '#FF0000', width: 4 },
+                // Set default step function for all animate calls
+                step: function (state, circle) {
+                    circle.path.setAttribute('stroke', state.color);
+                    circle.path.setAttribute('stroke-width', state.width);
+
+                    var value = Math.round(circle.value() * 100);
+                    if (value === 0) {
+                        circle.setText('0 %');
+                    } 
+                    if (value >= 100){
+
+                        circle.setText('100%');
+                    }
+                    else {
+                        circle.setText(value + '%');
+                    }
+
+                }
+            });
+            bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
+            bar.text.style.fontSize = '2rem';
+
+            var space = @Model.AvailableSpace;
+            space = space / 100;
+            if (space >= 1)
+                space = 1;
+
+            if (space < 0.01)
+                space = 0.01;
+
+            bar.animate(space);  // Number from 0.0 to 1.0
+        });
+
+            /* save file content */
+            $("#save").click(function (e) {
+
+                var file = $('.tabs .tab-links .active').text();
+                file = file.trim();
+                var ffile = file.substr(0, file.length - 1);
+                ffile = ffile.trim();
+                var content = editor[ffile].getValue();
+
+                $.ajax({
+
+                    type: "POST",
+                    url: "/Compiler/Save",
+                    data: { currentFile: file, content: content },
+                    success: function (data) {
+
+                        $("#textarea_info").html(data);
+                        $("#succes_warning").modal('show');
+
+                    }
+                });
+            });
+            /* END save file content */
+
+            /* send the old name and the new name to server side */
+            $("#saveAs").click(function (e) {
+
+                e.preventDefault();
+
+                var old = $("#old_file").val();
+                var newf = $("#new_file").val();
+                var activeTab_id = $('.tabs .tab-links .active ').attr("id");
+
+                activeTab_id = String(activeTab_id);                              
+                activeTab_id = "code" + activeTab_id.slice(1);
+                    
+                /* exception */
+                if (old != "")
+                {  
+                    var content = editor[old].getValue();
+                    editor[newf] = editor[old];
+                }
+                else
+                {
+                    var content = editor[activeTab_id].getValue();
+                    editor[newf] = editor[activeTab_id];
+                }
+                    $.ajax({
+    
+                    type: "POST",
+                    url: "/Compiler/Save_As",
+                    data: { old_f: old, new_f: newf, content: content },
+                    success: function (data) {
+                        if (data == "Error")
+                        {
+    
+                        }
+                        else {
+                            /* change the tab name and set the correct id*/
+
+                            var str = $('.tabs .tab-links .active').html();
+                            var href_id = "";
+                            var n = str.indexOf("href") + 6;
+    
+                            for (var i = n; i < str.length; i++) {
+                                if (str[i] == '"') {
+                                    break;
+                                }
+                                else {
+                                    href_id += str[i]
+                                }
+                            }
+                            $('.tabs .tab-links .active').html('<a href="' + href_id + '" style="color:white;">' + newf + ' <span>x</span> </a>');
+
+                        }
+                    }
+                    });
+            });
+                /* END send the old name and the new name to server side */
+
+                /* Set an AJAX call for output */
+                    $("#compile_btn").click(function (e) {
+
+                        var fl = $('.tabs .tab-links .active').text();
+                        fl = fl.trim();
+                        var ffl = fl.substr(0, fl.length - 1);
+                        ffl = ffl.trim();
+                        var info = editor[ffl].getValue();
+
+                        $("#loading").show();
+
+                        $.ajax({
+                          
+                            type: "POST",
+                            url: "/Compiler/ProcessInput",
+                            data: { input: info, file: fl },
+                            success: function (data) {
+                                $("#loading").hide();
+
+                                if (data == 'Error')
+                                    window.location.href = '/Compiler/Error';
+                                else
+                                {   
+                                    $("#output").modal('show');
+                                    $("#textarea_output").html(data);
+                                }
+                            }
+                        });
+
+                    });
+                /* END set an AJAX call for output */
+
+                    /* write OIDEA:$ on a new line */
+                    function writeOn_newline() {
+
+                        var key = window.event.keyCode;
+
+                        /* If the user has pressed enter */
+                        if (key == 13) {
+
+                            var command = document.getElementById("textarea_cmd").value
+                            command = command.substr(command.lastIndexOf("OIDEA$:") + 6, command.length);
+                            if (command == "")
+                                document.getElementById("textarea_cmd").value = document.getElementById("textarea_cmd").value + "\nOIDEA$: ";
+                            else
+                            {
+                                /* check if it's a open command */
+                                if (command.indexOf("open") != -1) 
+                                {
+                                     
+                                    /* proccess command */
+                                    var command_options = command.split(" ");
+                                    /* if the file is opened in root */
+                                    if (command_options.length == 2)
+                                    {
+                                        
+                                        id = $('.tab-links').children().length;
+                                        $('.add-file').closest('li').before('<li id="s' + id + '"><a href="#tab' + id + '" style="color: white">' + command_options[1] + ' <span>x</span></a></li>');
+                                        $('.tab-content').append('<div id="tab' + id + '" class="tab"><div class="inputFrame"> <textarea id="code' + id + '" placeholder="Code here.." name="input"></textarea> </div></div>');
+                                        index = "code" + id;
+
+                                        delete editor[command_options[1]];
+                                        editor[command_options[1]] = CodeMirror.fromTextArea(document.getElementById("code" + id), {
+                                            lineNumbers: true,
+                                            extraKeys: { "Alt-F": "findPersistent" },
+                                            mode: "text/x-csrc",
+                                            matchBrackets: true
+
+                                        });
+                                        $.ajax({
+
+                                            type: "POST",
+                                            url: "/Compiler/get_dictValue",
+                                            data: { file: command_options[1] },
+                                            success: function (data) {
+
+                                            editor[command_options[1]].setValue(data);
+
+                                            }
+                                        });
+                                    }
+                                }
+                                else {
+
+                                    $.ajax({
+
+                                        type: "POST",
+                                        url: "/Compiler/execute_cmdCommand",
+                                        data: { command: command.trim() },
+                                        success: function (data) {
+
+                                            if(data == "Error")
+                                            {    
+                                                window.location.href = '/Compiler/Error';
+                                                document.getElementById("textarea_cmd").value = document.getElementById("textarea_cmd").value + "\nOIDEA$: ";
+                                            }
+                                            else
+                                            {
+                                                if (data != "")
+                                                    document.getElementById("textarea_cmd").value = document.getElementById("textarea_cmd").value + "\n" + data + "\n" + "OIDEA$: ";
+                                                else
+                                                    document.getElementById("textarea_cmd").value = document.getElementById("textarea_cmd").value + "\nOIDEA$: ";
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                return false;
+            }
+            else {
+                return true;
+            }
+        };
+
+
+       /*click export to git button */
+        $("#export_git").click(function(){
+
+            var git_username = $("#git_username").val();
+            var git_password = $("#git_password").val();
+            var git_url      = $("#git_url").val();
+
+            $("#loading").show();
+            $.ajax({
+                
+                type: "POST",
+                url:  "/Compiler/export_ToGitHub",
+                data: { username: git_username, password: git_password, gurl: git_url},
+                success: function(data){
+
+                    $("#loading").hide();
+                    $("#textarea_info").html(data);
+                    $("#succes_warning").modal('show');
+                }
+
+            });
+        });
+           
+    </script>
+
+    <style>
+        .CodeMirror {
+            height: 500px;
+            border: 1px solid #ccc;
+            border-top: none;
+            border-bottom: none;
+        }
+
+        .CodeMirror-scroll {
+            height: 500px;
+        }
+
+        .CodeMirror pre {
+            padding-left: 7px;
+            line-height: 1.25;
+        }
+    </style>
+
+</body>

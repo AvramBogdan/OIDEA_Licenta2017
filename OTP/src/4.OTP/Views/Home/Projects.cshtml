@@ -1,0 +1,291 @@
+﻿@model IEnumerable<OTP.ViewModels.User.ProjectList>
+@{  
+    Layout = "_Layout";
+}
+
+<link rel="stylesheet" href="~/lib/MDB-Free/MDB Free/css/bootstrap.css" />
+<link rel="stylesheet" href="~/lib/MDB-Free/MDB Free/css/mdb.css" />
+<link rel="stylesheet" href="~/lib/MDB-Free/MDB Free/css/style.css" />
+
+<script src="~/js/jquery/jquery.min.js"></script>
+<script src="~/js/javascript/projectsView.js"></script>
+
+<br />
+<br />
+  
+    <!-- CREATE A NEW PROJECT -->
+    <div class="new_project" id="new">
+        <button class="x_button" id="close_new"> <i class="fa fa-close" aria-hidden="true"></i> </button>
+
+            <div class="form-style-6">
+                <h1>New Project</h1>
+
+                <form method="post" asp-controller="Home" asp-action="Add_NewProject">
+
+                    <input type="text" name="project_name" placeholder="Project Name*" />
+
+                    <label for="job">Project Types:</label>
+                        <select id="job" name="project_type">
+
+                            <optgroup label="Projects">
+
+                                <option value="C">C</option>
+                                <option value="C++">C++</option>
+                                <option value="Python">Python</option>
+                                <option value="K">K</option>
+
+                            </optgroup>
+
+                        </select>
+
+                        <button class ="btn btn-default" type="submit" ><i class="fa fa-plus" aria-hidden="true"></i> Create</button>
+                </form>
+
+            </div>
+        </div>
+  
+    <!-- OPEN PROJECT -->
+    <div class="open_project" id="open">
+        <button class="x_button" id="close_open"> <i class="fa fa-close" aria-hidden="true"></i> </button>
+        
+        <!-- Section used for displaying the headers "Project" and "Type" -->
+        <div style="clear: both">
+            <h1   style="float: left; margin-left: 50px; ">Project</h1>
+            <h1   style="float: right; margin-right: 80px;">Type</h1>
+        </div>
+
+        <br />
+        <br />
+
+        <hr class="separating_line_header" />
+        <form method="post" asp-action="open_Project" asp-controller="Home">
+            <div class="items">
+
+                @foreach (var item in Model)
+                {
+                    <div class="item">
+                        <input type="checkbox" id="squaredTwo" name="Checkbox" value=@item.ProjectName />
+                        <label class="lb1" for="squaredTwo"> @item.ProjectName </label>
+                        <label class="lb2" for="squaredTwo"> @item.ProjectType </label>
+
+                    </div>
+                    <hr />
+
+                 }
+
+            </div>
+
+            <button class="btn btn-default open_one_project" type="submit"><i class="fa fa-folder-open" aria-hidden="true"></i> Open </button>
+        </form>
+    </div>
+
+    <!-- GROUP PROJECT -->
+    <div class="list_projects" id="list">
+        <button class="x_button" id="close_list"> <i class="fa fa-close" aria-hidden="true"></i> </button>
+        <div class="form-style-6">
+            <h1>Create a group project</h1>
+            <form asp-action="create_ProjectGroup" asp-controller="Home" method="post">
+
+                <label class="upload_project_text" for="file">Project Name: </label>
+                <input type="text" name="project_name" id="file" />
+
+                <div class="include_in_project">
+                    <label for="user" class="text">Add user to project:</label>
+                    <input class="new-user" type="text" name="user" id="user" />
+                    <button type="button" id="add-user" class="btn btn-default add-user-button btn-circle btn-lg"><i class="fa fa-user-plus" aria-hidden="true"></i></button>
+
+                    <label for="job" class="select-project">Project Types:</label>
+                    <select id="job" name="project_type">
+
+                        <optgroup label="Projects">
+
+                            <option value="C">C</option>
+                            <option value="C++">C++</option>
+                            <option value="Python">Python</option>
+                            <option value="K">K</option>
+
+                        </optgroup>
+
+                    </select>
+                </div>
+
+                <button class="btn btn-default upload_one_project" type="submit"><i class="fa fa-cloud-upload" aria-hidden="true"></i> Create </button>
+
+            </form>
+
+        </div>
+     </div>
+    
+<!-- DELETE PROJECT -->    
+
+    <!-- WARNING USED WHEN DELETE (A) PROJECT(S) -->
+    <div class="modal fade warning-position" id="confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title w-100" id="myModalLabel">Do you really want to continue?</h4>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" >No</button>
+                    <button type="submit" form="delete-form" class="btn btn-default">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN BODY -->
+    <div class="delete_project" id="delete">
+        <button class="x_button" id="close_delete"> <i class="fa fa-close" aria-hidden="true"></i> </button>
+
+        <!-- Section used for displaying the headers "Project" and "Type" -->
+        <div style="clear: both">
+            <h1 style="float: left; margin-left: 50px; ">Project</h1>
+            <h1 style="float: right; margin-right: 80px;">Type</h1>
+        </div>
+
+        <br />
+        <br />
+
+        <hr class="separating_line_header" />
+
+        <!-- display the items/projects -->
+        <form method="post" asp-action="delete_project" asp-controller="Home" id="delete-form">
+
+            <div class="items">
+                @foreach (var item in Model)
+                {
+                    <div class="item">
+                        <input type="checkbox" id="squaredTwo" name="Checkbox" value=@item.ProjectName />
+                        <label class="lb1" for="squaredTwo" name="Labels" id="Labels"> @item.ProjectName </label>
+                        <label class="lb2" for="squaredTwo"> @item.ProjectType </label>
+                    </div>
+
+                    <hr />
+                }
+            </div>
+        </form>
+
+            <button  id="x" class="btn btn-default open_one_project" data-toggle="modal" data-target="#confirm"><i class="fa fa-close" aria-hidden="true"></i> Delete </button>
+        
+    </div>
+    
+<!-- END DELETE PROJECT -->  
+
+    <div class="buttons">
+
+        <!-- create a new project -->
+        <button class="btn btn-default new_button" onclick="window_visible('new')" id="new_s"><i class="fa fa-folder-o fa-5x" aria-hidden="true"></i>  New project </button>
+
+        <!-- open project -->
+        <button class="btn btn-default open_button" onclick="window_visible('open')" id="open_s"><i class="fa fa-folder-open fa-5x" aria-hidden="true"></i> Open project </button>
+
+        <!-- list project -->
+        <button class="btn btn-default list_button" onclick="window_visible('list')" id="list_s"><i class="fa fa-group" aria-hidden="true"></i> Group project </button>
+
+        <!-- delete project -->
+        <button class="btn btn-default delete_button" onclick="window_visible('delete')" id="delete_s"><i class="fa fa-times" aria-hidden="true"></i> Delete project(s) </button>
+
+    </div>
+
+    <script>
+
+        /* jquery syntax for closing project div */
+        $("#close_new").click(function () {
+            $("#new").hide("slow", function () {
+
+            });
+        });
+
+        /* jquery syntax for opening project div */
+        $("#new_s").click(function () {
+            $("#new").show("slow", function () {
+
+            });
+        });
+
+
+        /* jquery syntax for closing project list div */
+        $("#close_list").click(function () {
+            $("#list").hide("slow", function () {
+
+            });
+        });
+
+        /* jquery syntax for opening project list div */
+        $("#list_s").click(function () {
+            $("#list").show("slow", function () {
+
+            });
+        });
+
+
+        /* jquery syntax for closing project list div */
+        $("#close_open").click(function () {
+            $("#open").hide("slow", function () {
+
+            });
+        });
+
+        /* jquery syntax for opening project list div */
+        $("#open_s").click(function () {
+            $("#open").show("slow", function () {
+
+            });
+        });
+
+        /* jquery syntax for closing project list div */
+        $("#close_delete").click(function () {
+            $("#delete").hide("slow", function () {
+
+            });
+        });
+
+        /* jquery syntax for opening project list div */
+        $("#delete_s").click(function () {
+            $("#delete").show("slow", function () {
+
+            });
+        });
+
+        /* jquery syntax for closing confirm delete div */
+        $("#close_confirm").click(function () {
+            $("#confirm").hide("slow", function () {
+
+            });
+        });
+
+        /* jquery syntax for closing confirm delete div */
+        $("#delete_button").click(function () {
+            $("#confirm").show("slow", function () {
+
+            });
+        });
+
+        $("#add-user").click(function () {
+
+            var user = $("#user").val();
+            alert(user);
+
+            $.ajax({
+
+                type: "POST",
+                url: "/Home/add_userToGroup",
+                data: { user: user },
+                success: function(data) {
+
+                    alert('user added');
+
+                }
+            });
+        });
+
+    </script>
+
+
